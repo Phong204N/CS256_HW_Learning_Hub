@@ -1,4 +1,4 @@
-import render
+import app
 
 if __name__ == "__main__":
-    render.app.run(host=None, port=5000)
+    app.app.run(host=None, port=5000, debug=True)

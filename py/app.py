@@ -1,9 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+##  Begin Standard Imports
+import os
+import mysql.connector
+from pathlib import Path
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-import mysql.connector
 
-app = Flask(__name__)
+##  Begin Local Imports
+import resources
+
+app = Flask(__name__, template_folder=str(resources.CONST_FRONTEND_DIR), static_folder=str(resources.CONST_ROOT_DIR))
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Initialize Bcrypt and LoginManager
@@ -35,6 +41,16 @@ class User(UserMixin):
 
     def get_id(self):
         return str(self.userid)  # Flask-Login needs the user id to be a string
+
+@app.route("/")
+def root():
+    return redirect(url_for('home'))
+
+# Home Route
+@app.route("/home")
+@login_required
+def home():
+    return render_template("index.html", username=current_user.username)
 
 # Register Route
 @app.route("/register", methods=["GET", "POST"])
@@ -97,12 +113,6 @@ def login():
 
     return render_template('login.html')
 
-# Home Route
-@app.route("/home")
-@login_required
-def home():
-    return render_template("home.html", username=current_user.username)
-
 # Logout Route
 @app.route("/logout")
 @login_required
@@ -124,6 +134,3 @@ def load_user(user_id):
         userid, username, email, password, role, first_name, last_name, institute_name = user_data
         return User(userid, username, email, password, role, first_name, last_name, institute_name)
     return None
-
-if __name__ == "__main__":
-    app.run(debug=True)
