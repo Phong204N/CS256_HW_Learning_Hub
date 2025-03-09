@@ -1,15 +1,22 @@
+<<<<<<< HEAD
+=======
 import os
+>>>>>>> c84ce6d (Fixed issue with role-based content display)
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import mysql.connector
 
+<<<<<<< HEAD
+app = Flask(__name__)
+=======
 # Set the absolute path for the templates folder
 template_folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
 
 # Initialize Flask app with the updated template folder path
 app = Flask(__name__, template_folder=template_folder_path)
 
+>>>>>>> c84ce6d (Fixed issue with role-based content display)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Initialize Bcrypt and LoginManager
@@ -19,6 +26,15 @@ login_manager.login_view = 'login'
 
 # MySQL connection setup
 def get_db_connection():
+<<<<<<< HEAD
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',  # Change to your MySQL username
+        password='password',  # Change to your MySQL password
+        database='ai_learning_hub'
+    )
+    return connection
+=======
     try:
         connection = mysql.connector.connect(
             host='localhost',
@@ -30,6 +46,7 @@ def get_db_connection():
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return None
+>>>>>>> c84ce6d (Fixed issue with role-based content display)
 
 # User Model
 class User(UserMixin):
@@ -106,11 +123,16 @@ def login():
         connection.close()
 
     return render_template('login.html')
+<<<<<<< HEAD
 
+# Home Route
+
+=======
 @app.route("/home")
 @login_required
 def home():
     print(f"Logged in user: {current_user.username} - Role: {current_user.role}")  # Debugging line
+>>>>>>> c84ce6d (Fixed issue with role-based content display)
     return render_template("home.html", username=current_user.username)
 
 # Logout Route
@@ -129,6 +151,10 @@ def load_user(user_id):
     user_data = cursor.fetchone()
     cursor.close()
     connection.close()
+<<<<<<< HEAD
+    
+  
+=======
 
     if user_data:
         userid, username, email, password, role, first_name, last_name, institute_name = user_data
@@ -136,5 +162,87 @@ def load_user(user_id):
         return User(userid, username, email, password, role, first_name, last_name, institute_name)
     return None
 
+# Submit Resource Route (for logged-in users)
+@app.route("/submit_resource", methods=["GET", "POST"])
+@login_required
+def submit_resource():
+    if request.method == 'POST':
+        title = request.form['title']
+        url = request.form['url']
+        category = request.form['category']  
+        description = request.form['description']
+        author_name = request.form['author_name']
+        user_id = current_user.userid  # Get the logged-in user's ID
+
+        # Insert the resource into the database with 'pending' status
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute(""" 
+            INSERT INTO resources (title, link, category, description, author_name, user_id, status) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s) 
+        """, (title, url, category, description, author_name, user_id, 'pending'))
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+        flash('Resource submitted successfully. Waiting for approval!', 'success')
+        return redirect(url_for('home'))
+
+    return render_template('submit_resource.html')
+
+@app.route("/admin/dashboard")
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        flash('You do not have permission to access this page', 'danger')
+        return redirect(url_for('home'))
+
+    # Fetch pending resources or other admin-specific content
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM resources WHERE status = 'pending'")
+    resources = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    return render_template('admin_dashboard.html', resources=resources)
+
+# Approve Resource Route
+@app.route("/admin/approve_resource/<int:resource_id>")
+@login_required
+def approve_resource(resource_id):
+    if current_user.role != 'admin':
+        flash('You do not have permission to access this page', 'danger')
+        return redirect(url_for('home'))
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("UPDATE resources SET status = 'approved' WHERE resource_id = %s", (resource_id,))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    flash('Resource approved!', 'success')
+    return redirect(url_for('admin_dashboard'))
+
+# Reject Resource Route
+@app.route("/admin/reject_resource/<int:resource_id>")
+@login_required
+def reject_resource(resource_id):
+    if current_user.role != 'admin':
+        flash('You do not have permission to access this page', 'danger')
+        return redirect(url_for('home'))
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("UPDATE resources SET status = 'rejected' WHERE resource_id = %s", (resource_id,))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    flash('Resource rejected!', 'danger')
+    return redirect(url_for('admin_dashboard'))
+
+>>>>>>> c84ce6d (Fixed issue with role-based content display)
 if __name__ == "__main__":
     app.run(debug=True)
