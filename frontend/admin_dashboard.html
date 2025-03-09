@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h1 class="text-center">Admin Dashboard</h1>
+                <div class="float-right">
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Submitted Resources</h3>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resource in resources %}
+                    <tr>
+                        <td>{{ resource.title }}</td>
+                        <td>{{ resource.category }}</td>
+                        <td>{{ resource.description[:100] }}...</td> <!-- Displaying only the first 100 characters -->
+                        <td>{{ resource.author_name }}</td>
+                        <td>
+                            <span class="badge badge-{{ 'success' if resource.status == 'approved' else 'danger' }}">
+                                {{ resource.status.capitalize() }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('approve_resource', resource_id=resource.resource_id) }}" class="btn btn-success btn-sm">Approve</a>
+                            <a href="{{ url_for('reject_resource', resource_id=resource.resource_id) }}" class="btn btn-danger btn-sm">Reject</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
