@@ -66,6 +66,7 @@ class User(UserMixin):
 # Register Route
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    logout_user()
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -100,6 +101,7 @@ def register():
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    logout_user()
     if request.method == 'POST':
         username_or_email = request.form['username_or_email']
         password = request.form['password']
