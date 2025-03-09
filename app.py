@@ -1,9 +1,15 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import mysql.connector
 
-app = Flask(__name__)
+# Set the absolute path for the templates folder
+template_folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+
+# Initialize Flask app with the updated template folder path
+app = Flask(__name__, template_folder=template_folder_path)
+
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 # Initialize Bcrypt and LoginManager
@@ -13,13 +19,17 @@ login_manager.login_view = 'login'
 
 # MySQL connection setup
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host='localhost',
-        user='root',  # Change to your MySQL username
-        password='password',  # Change to your MySQL password
-        database='ai_learning_hub'
-    )
-    return connection
+    try:
+        connection = mysql.connector.connect(
+            host='localhost',
+            user='root',  # Change to your MySQL username
+            password='password',  # Change to your MySQL password
+            database='ai_learning_hub'
+        )
+        return connection
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return None
 
 # User Model
 class User(UserMixin):
@@ -97,10 +107,10 @@ def login():
 
     return render_template('login.html')
 
-# Home Route
 @app.route("/home")
 @login_required
 def home():
+    print(f"Logged in user: {current_user.username} - Role: {current_user.role}")  # Debugging line
     return render_template("home.html", username=current_user.username)
 
 # Logout Route
@@ -119,9 +129,10 @@ def load_user(user_id):
     user_data = cursor.fetchone()
     cursor.close()
     connection.close()
-    
+
     if user_data:
         userid, username, email, password, role, first_name, last_name, institute_name = user_data
+        print(f"Loaded user: {username} - Role: {role}")  # Debugging line
         return User(userid, username, email, password, role, first_name, last_name, institute_name)
     return None
 
