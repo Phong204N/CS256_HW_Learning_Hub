@@ -1,28 +1,31 @@
-import requests
-import mysql.connector
-from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
+from flask_migrate import Migrate
+import requests, mysql.connector
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 import resources
+from models import db, Resource  # Import the db and Resource class
+from flask_login import LoginManager
 
+
+# Initialize the Flask app
 # Initialize the Flask app
 app = Flask(__name__, template_folder=str(resources.CONST_FRONTEND_DIR), static_folder=str(resources.CONST_ROOT_DIR))
 
-# Flask app configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/dbname'  # Set your DB URI
+# Configure the database URI (make sure it's correct for your environment)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:password@localhost/ai_learning_hub'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'your_secret_key'  # Secret key for session management
+app.secret_key = 'your_secret_key'  # Set a secret key for session management
 
-# Initialize SQLAlchemy and Migrate with the Flask app
-db = SQLAlchemy(app)  # Initialize SQLAlchemy with the app
-migrate = Migrate(app, db)  # Initialize Flask-Migrate with the app and db
-
-# Initialize Bcrypt and LoginManager
+db.init_app(app)  # Initialize the database
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+# User loader
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))  # Use SQLAlchemy to get the user by ID
 
 # MySQL connection setup
 def get_db_connection():
@@ -38,7 +41,7 @@ def get_db_connection():
         print(f"Error: {err}")
         return None
 
-
+# Gen
 def fetch_trending_repos():
     response = requests.get(resources.GITHUB_API_URL, headers=resources.HEADERS)
     if response.status_code == 200:
@@ -68,8 +71,8 @@ def fetch_trending_repos():
 
 # User Model
 class User(UserMixin):
-    def __init__(self, userid, username, email, password, role, first_name, last_name, institute_name):
-        self.userid = userid
+    def __init__(self, id, username, email, password, role, first_name, last_name, institute_name):
+        self.id = id  # Renamed from userid to id
         self.username = username
         self.email = email
         self.password = password
@@ -79,7 +82,8 @@ class User(UserMixin):
         self.institute_name = institute_name
 
     def get_id(self):
-        return str(self.userid)  # Flask-Login needs the user id to be a string
+        return str(self.id)  # Flask-Login needs the user id to be a string
+
 
 @app.route("/")
 def root():
@@ -165,15 +169,17 @@ def logout():
 def load_user(user_id):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM users WHERE userid = %s", (user_id,))
+    cursor.execute("SELECT * FROM users WHERE userid = %s", (user_id,))  # This is correct because the `userid` is being used here to query the DB.
     user_data = cursor.fetchone()
     cursor.close()
     connection.close()
 
     if user_data:
+        # Destructure the data to match the User class constructor
         userid, username, email, password, role, first_name, last_name, institute_name = user_data
-        return User(userid, username, email, password, role, first_name, last_name, institute_name)
+        return User(userid, username, email, password, role, first_name, last_name, institute_name)  # Pass `userid` to `User`
     return None
+
 
 @app.route("/trending")
 @login_required
@@ -189,13 +195,14 @@ def submit_resource():
             # Get form data
             title = request.form['title']
             description = request.form['description']
-            link = request.form['link']  # 'link' field in the form
+            link = request.form['link']  # Note: use 'url' for the field name in the form
             category = request.form['category']
             author_name = request.form['author_name']
 
-            # Check if user is authenticated by checking session
-            user_id = current_user.get_id()  # This is the correct way to get the current logged-in user's ID
-            if user_id is None:
+            # Check if user is authenticated
+            if current_user.is_authenticated:
+                user_id = current_user.id  # Access current user ID
+            else:
                 flash('You need to be logged in to submit a resource.', 'danger')
                 return redirect(url_for('login'))  # Redirect to login page if not authenticated
 
@@ -206,11 +213,10 @@ def submit_resource():
                 link=link,
                 category=category,
                 author_name=author_name,
-                user_id=user_id,  # Store user_id from session
-                status='pending'  # You can change this later based on your workflow
+                user_id=user_id,  # Assign user_id to the resource
+                status='pending'
             )
 
-            # Add and commit the new resource to the database
             db.session.add(new_resource)
             db.session.commit()
 
@@ -222,7 +228,6 @@ def submit_resource():
             return redirect(url_for('submit_resource'))  # Redirect back if any field is missing
 
     return render_template('submit_resource.html')
-
 @app.route("/admin/dashboard")
 @login_required
 def admin_dashboard():
@@ -282,7 +287,7 @@ def reject_resource(resource_id):
 def my_resources():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM resources WHERE user_id = %s", (current_user.userid,))
+    cursor.execute("SELECT * FROM resources WHERE user_id = %s", (current_user.id,))
     resources = cursor.fetchall()
     cursor.close()
     connection.close()
