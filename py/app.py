@@ -175,7 +175,7 @@ def load_user(user_id):
 
 @app.route("/trending")
 @login_required
-def trending_page():
+def trending():
     trending_repos = fetch_trending_repos()
     return render_template("trending.html", repos=trending_repos)
 

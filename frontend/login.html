@@ -20,6 +20,7 @@
         <ul class="alert alert-danger">
             {% for category, message in messages %}
             {{ message }}
+            <br>
             {% endfor %}
         </ul>
         {% endif %}
@@ -35,12 +36,15 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            <a class="btn btn-primary" id="register" href="/register">Register</a>
+            <a class="btn btn-primary" id="register" href="{{ url_for('register') }}">Register</a>
             <label for="register">No account?  Register!</label>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
