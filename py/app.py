@@ -1,15 +1,23 @@
-##  Begin Standard Imports
-import requests, mysql.connector
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+import requests
+import mysql.connector
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
-##  Begin Local Imports
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import resources
 
+# Initialize the Flask app
 app = Flask(__name__, template_folder=str(resources.CONST_FRONTEND_DIR), static_folder=str(resources.CONST_ROOT_DIR))
 
-app.config['SECRET_KEY'] = 'your_secret_key'
+# Flask app configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/dbname'  # Set your DB URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'your_secret_key'  # Secret key for session management
+
+# Initialize SQLAlchemy and Migrate with the Flask app
+db = SQLAlchemy(app)  # Initialize SQLAlchemy with the app
+migrate = Migrate(app, db)  # Initialize Flask-Migrate with the app and db
 
 # Initialize Bcrypt and LoginManager
 bcrypt = Bcrypt(app)
@@ -30,8 +38,7 @@ def get_db_connection():
         print(f"Error: {err}")
         return None
 
-# gen
-# trending_repos = fetch_trending_repos()
+
 def fetch_trending_repos():
     response = requests.get(resources.GITHUB_API_URL, headers=resources.HEADERS)
     if response.status_code == 200:
@@ -39,7 +46,6 @@ def fetch_trending_repos():
         repos = []
         
         for repo in data:
-            # Get repo details
             repo_details = {
                 "name": repo["name"],
                 "url": repo["html_url"],
@@ -49,7 +55,6 @@ def fetch_trending_repos():
                 "contributors_url": repo["contributors_url"]
             }
             
-            # Fetch top contributors
             contributors = requests.get(repo["contributors_url"], headers=resources.HEADERS)
             if contributors.status_code == 200:
                 repo_details["contributors"] = [contributor["login"] for contributor in contributors.json()[:5]]  # Get top 5
@@ -75,7 +80,7 @@ class User(UserMixin):
 
     def get_id(self):
         return str(self.userid)  # Flask-Login needs the user id to be a string
-    
+
 @app.route("/")
 def root():
     return redirect(url_for('home'))
@@ -84,7 +89,6 @@ def root():
 @app.route("/home")
 @login_required
 def home():
-    print(f"Logged in user: {current_user.username} - Role: {current_user.role}")  # Debugging line
     return render_template("home.html", username=current_user.username)
 
 # Login Route
@@ -95,7 +99,6 @@ def login():
         username_or_email = request.form['username_or_email']
         password = request.form['password']
 
-        # Check if user exists by username or email
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
         cursor.execute('SELECT * FROM users WHERE email = %s OR username = %s', (username_or_email, username_or_email))
@@ -169,7 +172,6 @@ def load_user(user_id):
 
     if user_data:
         userid, username, email, password, role, first_name, last_name, institute_name = user_data
-        print(f"Loaded user: {username} - Role: {role}")  # Debugging line
         return User(userid, username, email, password, role, first_name, last_name, institute_name)
     return None
 
@@ -179,31 +181,45 @@ def trending():
     trending_repos = fetch_trending_repos()
     return render_template("trending.html", repos=trending_repos)
 
-# Submit Resource Route (for logged-in users)
-@app.route("/submit_resource", methods=["GET", "POST"])
-@login_required
+@app.route('/submit_resource', methods=['GET', 'POST'])
+@login_required  # Ensure the user is logged in before submitting a resource
 def submit_resource():
     if request.method == 'POST':
-        title = request.form['title']
-        url = request.form['url']
-        category = request.form['category']  
-        description = request.form['description']
-        author_name = request.form['author_name']
-        user_id = current_user.userid  # Get the logged-in user's ID
+        try:
+            # Get form data
+            title = request.form['title']
+            description = request.form['description']
+            link = request.form['link']  # 'link' field in the form
+            category = request.form['category']
+            author_name = request.form['author_name']
 
-        # Insert the resource into the database with 'pending' status
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute(""" 
-            INSERT INTO resources (title, link, category, description, author_name, user_id, status) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s) 
-        """, (title, url, category, description, author_name, user_id, 'pending'))
-        connection.commit()
-        cursor.close()
-        connection.close()
+            # Check if user is authenticated by checking session
+            user_id = current_user.get_id()  # This is the correct way to get the current logged-in user's ID
+            if user_id is None:
+                flash('You need to be logged in to submit a resource.', 'danger')
+                return redirect(url_for('login'))  # Redirect to login page if not authenticated
 
-        flash('Resource submitted successfully. Waiting for approval!', 'success')
-        return redirect(url_for('home'))
+            # Create a new resource entry
+            new_resource = Resource(
+                title=title,
+                description=description,
+                link=link,
+                category=category,
+                author_name=author_name,
+                user_id=user_id,  # Store user_id from session
+                status='pending'  # You can change this later based on your workflow
+            )
+
+            # Add and commit the new resource to the database
+            db.session.add(new_resource)
+            db.session.commit()
+
+            flash('Resource submitted successfully!', 'success')
+            return redirect(url_for('home'))  # Redirect to home or other page after success
+
+        except KeyError as e:
+            flash(f"Missing form field: {str(e)}", 'danger')
+            return redirect(url_for('submit_resource'))  # Redirect back if any field is missing
 
     return render_template('submit_resource.html')
 
@@ -259,6 +275,19 @@ def reject_resource(resource_id):
 
     flash('Resource rejected!', 'danger')
     return redirect(url_for('admin_dashboard'))
+
+# User's Resources View
+@app.route("/my_resources")
+@login_required
+def my_resources():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM resources WHERE user_id = %s", (current_user.userid,))
+    resources = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    return render_template("my_resources.html", resources=resources)
 
 if __name__ == "__main__":
     app.run(debug=True)

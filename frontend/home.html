@@ -6,74 +6,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aigo</title>
     <link rel="icon" type="image/x-icon" href="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/CS256_HW_Learning_Hub/frontend/styles/aigo.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ddd !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #fff !important;
+        }
+
+        .navbar-nav .nav-item.active .nav-link {
+            color: #007bff !important;
+        }
+
+        .aigo_background {
+            background-image: url('/CS256_HW_Learning_Hub/frontend/img/background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #343a40;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .alert-info {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .search-bar {
+            border-radius: 25px;
+            padding: 5px 15px;
+        }
+
+        .card {
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .resources-table td, .resources-table th {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        .resources-table th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .resources-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .resources-table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 
 <body class="aigo_background">
 
-    <nav class="aigo_background aigo_navbar navbar bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('home') }}">
-                <img src="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png" alt="Logo" width="30" height="30"
-                    class="d-inline-block align-text-top">
+                <img src="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 Aigo Home
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('trending') }}">Trending AI Projects</a>
                     </li>
+                    {% if current_user.role != 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('submit_resource') }}">Submit Resource</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png"
-                                alt="" width="32" height="32">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png" alt="" width="32" height="32">
                             My Account
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#">My Resources</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a></li>
                             <li><a class="dropdown-item" href="#">My Bookmarks</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input class="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
             </div>
         </div>
     </nav>
 
-    
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <ul class="alert alert-danger">
         {% for category, message in messages %}
-        {{ message }}
-        <br>
+        <li>{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}
     {% endwith %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <div class="container mt-5">
+        <h2 class="section-title">Welcome, {{ current_user.username }}!</h2>
+
+        <div class="alert alert-info">
+            <h4>Dashboard</h4>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Your resource cards go here -->
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Coursera_Logo.png" class="card-img-top" alt="Coursera">
+                    <div class="card-body">
+                        <h5 class="card-title">Coursera</h5>
+                        <p class="card-text">Explore AI courses on Coursera, including deep learning and machine learning courses.</p>
+                        <a href="https://www.coursera.org" target="_blank" class="btn btn-primary">Explore Coursera</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

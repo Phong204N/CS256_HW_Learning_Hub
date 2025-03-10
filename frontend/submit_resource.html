@@ -59,8 +59,18 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         <h1 class="text-center">Submit a New Resource</h1>
+
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-{{ messages[0][0] }} mt-3" role="alert">
+                    {{ messages[0][1] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <form method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
@@ -68,8 +78,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="url" class="form-label">URL:</label>
-                <input type="url" name="url" class="form-control" required>
+                <label for="link" class="form-label">URL:</label>
+                <input type="url" name="link" class="form-control" required>
             </div>
 
             <div class="mb-3">
