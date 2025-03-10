@@ -4,154 +4,68 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Aigo</title>
+    <title>Aigo Home</title>
     <link rel="icon" type="image/x-icon" href="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/CS256_HW_Learning_Hub/frontend/styles/aigo.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .navbar {
-            background-color: #343a40;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            color: #fff !important;
-        }
-
-        .navbar-nav .nav-link {
-            color: #ddd !important;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #fff !important;
-        }
-
-        .navbar-nav .nav-item.active .nav-link {
-            color: #007bff !important;
-        }
-
-        .aigo_background {
-            background-image: url('/CS256_HW_Learning_Hub/frontend/img/background.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #343a40;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-
-        .alert-info {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .search-bar {
-            border-radius: 25px;
-            padding: 5px 15px;
-        }
-
-        .card {
-            transition: transform 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .submit-btn {
-            background-color: #28a745;
-            border: none;
-        }
-
-        .submit-btn:hover {
-            background-color: #218838;
-        }
-
-        .resources-table td, .resources-table th {
-            padding: 12px 15px;
-            text-align: center;
-        }
-
-        .resources-table th {
-            background-color: #343a40;
-            color: #fff;
-        }
-
-        .resources-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .resources-table tr:hover {
-            background-color: #ddd;
-        }
-    </style>
 </head>
 
 <body class="aigo_background">
-
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="aigo_navbar navbar navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('home') }}">
-                <img src="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-                Aigo Home
+                <img src="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png" alt="Logo" width="30" height="30"
+                    class="d-inline-block">
+                <span style="padding-left: .5rem;">Aigo</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('trending') }}">Trending AI Projects</a>
                     </li>
-                    {% if current_user.role != 'admin' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('submit_resource') }}">Submit Resource</a>
+                        <a class="nav-link active" href="{{ url_for('chatbot') }}">Built-in Chatbot</a>
                     </li>
-                    {% endif %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png" alt="" width="32" height="32">
+                        <a class="aigo_item nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png"
+                                alt="" width="32" height="32">
                             My Account
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">My Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a></li>
-                            <li><a class="dropdown-item" href="#">My Bookmarks</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        <ul class="aigo_navbar dropdown-menu">
+                            <li><a class="aigo_item dropdown-item" href="#">My Profile</a></li>
+                            <li><a class="aigo_item dropdown-item" href="#">My Resources</a></li>
+                            {% if current_user.role != 'admin' %}
+                            <li>
+                                <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a class="aigo_item dropdown-item disabled" aria-disabled="true"
+                                    href="{{ url_for('submit_resource') }}">Submit
+                                    Resource</a>
+                            </li>
+                            {% endif %}
+                            <li><a class="aigo_item dropdown-item" href="#">My Bookmarks</a></li>
+                            <li>
+                                <hr class="aigo_item dropdown-divider">
+                            </li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
         </div>
@@ -161,7 +75,8 @@
     {% if messages %}
     <ul class="alert alert-danger">
         {% for category, message in messages %}
-        <li>{{ message }}</li>
+        {{ message }}
+        <br>
         {% endfor %}
     </ul>
     {% endif %}
@@ -175,21 +90,259 @@
         </div>
 
         <div class="row mt-4">
-            <!-- Your resource cards go here -->
             <div class="col-md-6">
                 <div class="card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Coursera_Logo.png" class="card-img-top" alt="Coursera">
                     <div class="card-body">
+                        <img src="/CS256_HW_Learning_Hub/frontend/img/coursera_logo.png" alt="Coursera" width="200em">
+                        <br>
+                        <br>
                         <h5 class="card-title">Coursera</h5>
-                        <p class="card-text">Explore AI courses on Coursera, including deep learning and machine learning courses.</p>
+                        <p class="card-text">Explore AI courses on Coursera, including deep learning and machine
+                            learning courses.</p>
                         <a href="https://www.coursera.org" target="_blank" class="btn btn-primary">Explore Coursera</a>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/CS256_HW_Learning_Hub/frontend/img/github_logo.png" alt="GitHub" width="200em">
+                        <br>
+                        <br>
+                        <h5 class="card-title">GitHub</h5>
+                        <p class="card-text">Explore trending AI repositories on GitHub!</p>
+                        <a href="https://github.com/topics/ai?o=desc&s=stars" target="_blank"
+                            class="btn btn-primary">Explore GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/CS256_HW_Learning_Hub/frontend/img/ieeespectrum_logo.png" alt="IEEE Spectrum"
+                            width="200em">
+                        <br>
+                        <br>
+                        <h5 class="card-title">IEEE Spectrum</h5>
+                        <p class="card-text">Explore the latest industry news on Artificial Intelligence!</p>
+                        <a href="https://spectrum.ieee.org/topic/artificial-intelligence/" target="_blank"
+                            class="btn btn-primary">Explore IEEE Spectrum</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            <h4>Search Our Specially Collected AI Databases!</h4>
+        </div>
+
+        <script async src="https://cse.google.com/cse.js?cx=81cef840783de4dea">
+        </script>
+        <div class="gcse-search"></div>
+        <div class="gcse-searchresults"></div>
+
+        <br>
+
+        <div class="markdown prose w-full break-words dark:prose-invert dark">
+            <h4><strong>Our Search Engine searches through all of the following CS and AI
+                    databases!</strong></h4>
+            <hr>
+            <h5><strong>📚 AI, ML &amp; CS Research
+                    Papers &amp; Articles</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new" href="https://arxiv.org/list/cs.AI/recent">arXiv
+                            - AI &amp; CS</a></strong> – Open-access AI &amp; CS research.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://paperswithcode.com/">Papers With
+                            Code</a></strong> – Research papers + code implementations.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://scholar.google.com/">Google
+                            Scholar</a></strong> – Academic search for AI &amp; CS papers.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://ieeexplore.ieee.org/Xplore/home.jsp">IEEE
+                            Xplore - AI &amp; CS</a></strong> –
+                    Peer-reviewed research.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://dl.acm.org/">ACM Digital
+                            Library</a></strong> – Computing and AI research papers.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://deepai.org/">DeepAI</a></strong> –
+                    AI research aggregator.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.semanticscholar.org/">Semantic
+                            Scholar</a></strong> – AI-enhanced paper search.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.csail.mit.edu/">MIT AI
+                            Research</a></strong> – MIT’s AI &amp; CS research.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
+                            Blog</a></strong> – OpenAI’s latest research.</li>
+                <li><strong><a rel="noopener" target="_new">Google DeepMind Research</a></strong> – AI
+                    research from DeepMind.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://www.microsoft.com/en-us/research/theme/artificial-intelligence/">Microsoft
+                            Research AI</a></strong> – MS AI research.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://ai.facebook.com/research/">Meta
+                            AI Research</a></strong> – Meta's AI research papers.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://research.nvidia.com/">NVIDIA
+                            Research</a></strong> – AI &amp; ML research in graphics and computing.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://ai.stanford.edu/">Stanford AI
+                            Lab</a></strong> – Stanford's AI research hub.</li>
+                <li><strong><a rel="noopener" target="_new">Berkeley AI Research (BAIR)</a></strong> – AI
+                    research from UC Berkeley.</li>
+            </ol>
+            <hr>
+            <h5><strong>👨‍💻 AI &amp; CS
+                    Open-Source Repositories</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/">GitHub</a></strong>
+                    – Largest open-source code repository.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://github.com/trending/python?since=daily&amp;spoken_language_code=en">GitHub
+                            Trending - AI</a></strong> – Popular AI projects.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://paperswithcode.com/">Papers With
+                            Code</a></strong> – AI research + implementation.</li>
+                <li><strong><a rel="noopener" target="_new">Hugging Face Models</a></strong> – Pretrained
+                    AI/ML models.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/tensorflow/models">TensorFlow
+                            Models</a></strong> – Google’s ML
+                    models.</li>
+                <li><strong><a rel="noopener" target="_new">PyTorch Hub</a></strong> – Pretrained deep
+                    learning models.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/openai">OpenAI
+                            GitHub</a></strong> – OpenAI’s projects.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/fastai/fastai">fastai</a></strong>
+                    – AI/ML deep learning library.
+                </li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/NVIDIA/DeepLearningExamples">NVIDIA
+                            Deep Learning
+                            Examples</a></strong> – Optimized AI models.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/facebookresearch">Facebook AI
+                            Research (FAIR)</a></strong> –
+                    Open-source AI tools.</li>
+            </ol>
+            <hr>
+            <h5><strong>🌎 AI &amp; CS Communities
+                    &amp; Forums</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://www.reddit.com/r/MachineLearning/">r/MachineLearning</a></strong> – AI/ML
+                    discussions.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://www.reddit.com/r/artificial/">r/artificial</a></strong> – General AI
+                    discussions.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://www.reddit.com/r/compsci/">r/compsci</a></strong> – Computer Science
+                    discussions.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://stackoverflow.com/">Stack
+                            Overflow</a></strong> – Programming &amp; AI Q&amp;A.</li>
+                <li><strong><a rel="noopener" target="_new">Hacker News</a></strong> – Tech &amp; AI
+                    research discussions.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.lesswrong.com/">LessWrong</a></strong> –
+                    AI safety and alignment
+                    discussions.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.alignmentforum.org/">AI
+                            Alignment Forum</a></strong> – AI ethics and safety.</li>
+                <li><strong><a rel="noopener" target="_new">Deep Learning Discord</a></strong> – ML
+                    developer community.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://machinelearningmastery.com/">Machine Learning
+                            Mastery</a></strong> – ML
+                    tutorials &amp; guides.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.kdnuggets.com/">KDNuggets</a></strong> –
+                    AI &amp; data science articles.
+                </li>
+            </ol>
+            <hr>
+            <h5><strong>📂 AI/ML Open
+                    Datasets</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new">Google Dataset Search</a></strong> – Search AI
+                    datasets.</li>
+                <li><strong><a rel="noopener" target="_new">Kaggle Datasets</a></strong> – ML-ready
+                    datasets.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://archive.ics.uci.edu/ml/index.php">UCI ML
+                            Repository</a></strong> – Classic ML
+                    datasets.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://www.image-net.org/">ImageNet</a></strong> –
+                    Image classification dataset.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
+                            Datasets</a></strong> – AI training data.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://cocodataset.org/">COCO
+                            Dataset</a></strong> – Computer vision dataset.</li>
+                <li><strong><a rel="noopener" target="_new">Papers With Code Datasets</a></strong> – AI
+                    research datasets.</li>
+                <li><strong><a rel="noopener" target="_new">LLaMA Dataset</a></strong> – Meta’s LLM
+                    dataset.</li>
+                <li><strong><a rel="noopener" target="_new">Google BigQuery Public Data</a></strong> –
+                    Large-scale datasets.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://github.com/awesomedata/awesome-public-datasets">Awesome Public
+                            Datasets</a></strong> – AI dataset list.</li>
+            </ol>
+            <hr>
+            <h5><strong>📰 AI &amp; Tech
+                    News</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new" href="https://www.technologyreview.com/">MIT
+                            Technology Review</a></strong> – AI &amp; emerging tech.</li>
+                <li><strong><a rel="noopener" target="_new">Wired AI</a></strong> – AI-focused news.</li>
+                <li><strong><a rel="noopener" target="_new">The Verge AI</a></strong> – AI coverage.</li>
+                <li><strong><a rel="noopener" target="_new">VentureBeat AI</a></strong> – AI business &amp;
+                    research.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://spectrum.ieee.org/artificial-intelligence">IEEE Spectrum AI</a></strong> – AI
+                    industry trends.</li>
+                <li><strong><a rel="noopener" target="_new">Ars Technica AI</a></strong> – AI &amp; tech
+                    deep dives.</li>
+                <li><strong><a rel="noopener" target="_new">Futurism AI</a></strong> – AI advancements.
+                </li>
+                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
+                            Blog</a></strong> – OpenAI research updates.</li>
+                <li><strong><a rel="noopener" target="_new">DeepMind Blog</a></strong> – AI innovations.
+                </li>
+                <li><strong><a rel="noopener" target="_new" href="https://ai.facebook.com/blog/">Meta AI
+                            Blog</a></strong> – Meta’s AI research.</li>
+            </ol>
+            <hr>
+            <h5><strong>🛠 AI &amp; ML Tools &amp;
+                    Libraries</strong></h5>
+            <ol>
+                <li><strong><a rel="noopener" target="_new" href="https://www.tensorflow.org/">TensorFlow</a></strong> –
+                    Google’s deep learning
+                    framework.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://pytorch.org/">PyTorch</a></strong> – Deep
+                    learning library by Meta.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://jupyter.org/">Jupyter
+                            Notebook</a></strong> – Interactive computing for ML.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://scikit-learn.org/">scikit-learn</a></strong> –
+                    Classical ML toolkit.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://keras.io/">Keras</a></strong> –
+                    High-level API for deep learning.</li>
+                <li><strong><a rel="noopener" target="_new">Hugging Face Transformers</a></strong> – NLP
+                    &amp; LLM models.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://opencv.org/">OpenCV</a></strong>
+                    – Computer vision framework.</li>
+                <li><strong><a rel="noopener" target="_new" href="https://github.com/CompVis/stable-diffusion">Stable
+                            Diffusion</a></strong> – AI image
+                    generation.</li>
+                <li><strong><a rel="noopener" target="_new"
+                            href="https://github.com/openai/whisper">Whisper</a></strong> – AI speech recognition.</li>
+                <li><strong><a rel="noopener" target="_new">FastAPI</a></strong> – Fast AI API deployment.
+                </li>
+            </ol>
+            <hr>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script>
+            window.onload = function () {
+                let input = document.querySelector('input.gsc-input');
+                input.value = 'What is AI?';
+                let submit = document.querySelector('button.gsc-search-button');
+                submit.click();
+            };
+        </script>
 </body>
 
 </html>

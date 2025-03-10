@@ -12,17 +12,15 @@
 </head>
 
 <body class="aigo_background">
-
-    <nav class="aigo_background aigo_navbar navbar bg-body-tertiary">
+    <nav class="aigo_navbar navbar navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('home') }}">
                 <img src="/CS256_HW_Learning_Hub/frontend/img/aigo_app.png" alt="Logo" width="30" height="30"
-                    class="d-inline-block align-text-top">
-                Aigo
+                    class="d-inline-block">
+                <span style="padding-left: .5rem;">Aigo</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,21 +31,35 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('trending') }}">Trending AI Projects</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('chatbot') }}">Built-in Chatbot</a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="aigo_item nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png"
                                 alt="" width="32" height="32">
                             My Account
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#">My Resources</a></li>
-                            <li><a class="dropdown-item" href="#">My Bookmarks</a></li>
+                        <ul class="aigo_navbar dropdown-menu">
+                            <li><a class="aigo_item dropdown-item" href="#">My Profile</a></li>
+                            <li><a class="aigo_item dropdown-item" href="#">My Resources</a></li>
+                            {% if current_user.role != 'admin' %}
                             <li>
-                                <hr class="dropdown-divider">
+                                <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
                             </li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                            {% else %}
+                            <li>
+                                <a class="aigo_item dropdown-item disabled" aria-disabled="true"
+                                    href="{{ url_for('submit_resource') }}">Submit
+                                    Resource</a>
+                            </li>
+                            {% endif %}
+                            <li><a class="aigo_item dropdown-item" href="#">My Bookmarks</a></li>
+                            <li>
+                                <hr class="aigo_item dropdown-divider">
+                            </li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -60,7 +72,7 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center">Submit a New Resource</h1>
+        <h1 class="text-center alert alert-info">Submit a New Resource</h1>
 
         <!-- Display flash messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}

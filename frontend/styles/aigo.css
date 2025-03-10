@@ -1,5 +1,6 @@
 body{
     background-color: #FAFAFA;
+    font-family: 'Arial', sans-serif;
 }
 
 .aigo_background{
@@ -10,6 +11,54 @@ body{
 }
 
 .aigo_navbar{
+    background-color: #343a40;
     box-shadow: inset 0 -1em 1em #00000020;
 }
 
+.aigo_item {
+    color: #faebd7;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #343a40;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: #007bff;
+    color: white;
+}
+
+.card {
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.resources-table td, .resources-table th {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.resources-table th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.resources-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.resources-table tr:hover {
+    background-color: #ddd;
+}
