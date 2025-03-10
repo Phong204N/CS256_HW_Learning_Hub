@@ -46,7 +46,7 @@
                         <ul class="aigo_navbar dropdown-menu">
                             <li><a class="aigo_item dropdown-item" href="#">My Profile</a></li>
                             <li><a class="aigo_item dropdown-item" href="#">My Resources</a></li>
-                            {% if current_user.role != 'admin' %}
+                            {% if current_user.role == 'admin' %}
                             <li>
                                 <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
                             </li>
