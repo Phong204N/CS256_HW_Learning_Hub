@@ -42,8 +42,8 @@
                             My Account
                         </a>
                         <ul class="aigo_navbar dropdown-menu">
-                            <li><a class="aigo_item dropdown-item" href="#">My Profile</a></li>
-                            <li><a class="aigo_item dropdown-item" href="#">My Resources</a></li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">My Profile</a></li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a></li>
                             {% if current_user.role == 'admin' %}
                             <li>
                                 <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
@@ -55,7 +55,7 @@
                                     Resource</a>
                             </li>
                             {% endif %}
-                            <li><a class="aigo_item dropdown-item" href="#">My Bookmarks</a></li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_bookmarks') }}">My Bookmarks</a></li>
                             <li>
                                 <hr class="aigo_item dropdown-divider">
                             </li>

@@ -264,6 +264,7 @@ def submit_resource():
             return redirect(url_for('submit_resource'))  # Redirect back if any field is missing
 
     return render_template('submit_resource.html')
+
 @app.route("/admin/dashboard")
 @login_required
 def admin_dashboard():
@@ -330,6 +331,11 @@ def my_resources():
     connection.close()
 
     return render_template("my_resources.html", resources=resources)
+
+@app.route("/my_bookmarks")
+@login_required
+def my_bookmarks():
+    return render_template("my_bookmarks.html", user=current_user)
 
 if __name__ == "__main__":
     app.run(debug=True)
