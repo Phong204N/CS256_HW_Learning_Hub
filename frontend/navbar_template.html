@@ -29,16 +29,16 @@
                         My Account
                     </a>
                     <ul class="aigo_navbar dropdown-menu">
-                        <li><a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">My Profile</a></li>
                         <li><a class="aigo_item dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a></li>
+                        <li><a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a></li>
                         {% if current_user.role == 'admin' %}
                         <li>
-                            <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
+                            <a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">Resources To Approve</a>
                         </li>
                         {% else %}
                         <li>
                             <a class="aigo_item dropdown-item disabled" aria-disabled="true"
-                                href="{{ url_for('submit_resource') }}">Submit
+                                href="{{ url_for('admin_dashboard') }}">Approve
                                 Resource</a>
                         </li>
                         {% endif %}

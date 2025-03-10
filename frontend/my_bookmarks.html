@@ -41,26 +41,23 @@
                             <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png"
                                 alt="" width="32" height="32">
                             My Account
+                            My Account
                         </a>
                         <ul class="aigo_navbar dropdown-menu">
-                            <li><a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">My
-                                    Profile</a></li>
-                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_resources') }}">My Resources</a></li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit Resource</a>
                             </li>
                             {% if current_user.role == 'admin' %}
                             <li>
-                                <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit
-                                    Resource</a>
+                                <li><a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">Resouces To Approve</a></li>
                             </li>
                             {% else %}
                             <li>
                                 <a class="aigo_item dropdown-item disabled" aria-disabled="true"
-                                    href="{{ url_for('submit_resource') }}">Submit
-                                    Resource</a>
+                                    href="{{ url_for('admin_dashboard') }}">Resouces To Approve</a>
                             </li>
                             {% endif %}
-                            <li><a class="aigo_item dropdown-item active" aria-current="page"
-                                    href="{{ url_for('my_bookmarks') }}">My Bookmarks</a></li>
+                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_bookmarks') }}">My Bookmarks</a></li>
                             <li>
                                 <hr class="aigo_item dropdown-divider">
                             </li>
@@ -68,6 +65,7 @@
                         </ul>
                     </li>
                 </ul>
+                           
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
@@ -81,9 +79,9 @@
             <h1>My Bookmarks</h1>
         </div>
 
-        {% if user.bookmarks %}
+        {% if current_user.bookmarks %}
         <div class="list-group">
-            {% for bookmark in user.bookmarks %}
+            {% for bookmark in current_user.bookmarks %}
             <div class="list-group-item">
                 <h5 class="mb-1">{{ bookmark.resource.title }}</h5>
                 <p class="mb-1">{{ bookmark.resource.description }}</p>

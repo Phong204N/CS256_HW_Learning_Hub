@@ -1,21 +1,20 @@
 ##  Begin Standard Imports
-import os, requests, mysql.connector
+import mysql
 from openai import OpenAI
-from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import requests
 
 ##  Begin Local Imports
 import resources
-from models import Resource
-from models import db, Resource  # Import the db and Resource class
-from flask_login import LoginManager
-
+from models import Bookmark, Resource
+from models import db # Import the db and Resource class
 
 # Initialize the Flask app
+
 # Initialize the Flask app
 app = Flask(__name__, template_folder=str(resources.CONST_FRONTEND_DIR), static_folder=str(resources.CONST_ROOT_DIR))
-
 # Configure the database URI (make sure it's correct for your environment)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:password@localhost/ai_learning_hub'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,6 +29,7 @@ login_manager.login_view = 'login'
 client = OpenAI(
   api_key="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"
 )
+
 
 # MySQL connection setup
 def get_db_connection():
@@ -332,10 +332,23 @@ def my_resources():
 
     return render_template("my_resources.html", resources=resources)
 
-@app.route("/my_bookmarks")
-@login_required
+@app.route('/my_bookmarks')
 def my_bookmarks():
-    return render_template("my_bookmarks.html", user=current_user)
+    bookmarks = Bookmark.query.filter_by(user_id=current_user.id).all()
+    return render_template('my_bookmarks.html', bookmarks=bookmarks)
+
+@app.route('/delete_bookmark/<int:bookmark_id>', methods=['GET'])
+def delete_bookmark(bookmark_id):
+    bookmark = Bookmark.query.get_or_404(bookmark_id)
+    if bookmark.user_id != current_user.id:
+        flash('You do not have permission to delete this bookmark.', 'danger')
+        return redirect(url_for('my_bookmarks'))
+
+    db.session.delete(bookmark)
+    db.session.commit()
+    flash('Bookmark deleted successfully!', 'success')
+    return redirect(url_for('my_bookmarks'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
