@@ -150,12 +150,13 @@ def register():
             flash("Email or Username already exists!", "danger")
             return redirect(url_for('register'))
 
-        insert_stmt = (
-            "INSERT INTO users (first_name, last_name, email, password, role, institute_name, username) ",
-            "VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        )
-        data = (first_name, last_name, email, hashed_password, role, institute_name, username)
-        cursor.execute(insert_stmt, data)
+        insert_stmt = "INSERT INTO users (first_name, last_name, email, password, role, institute_name, username) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        # data = (first_name, last_name, email, hashed_password, role, institute_name, username)
+        # cursor.execute(insert_stmt, data)
+
+        cursor.execute("INSERT INTO users (first_name, last_name, email, password, role, institute_name, username) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                        (first_name, last_name, email, hashed_password, role, institute_name, username))
+
         connection.commit()
         cursor.close()
         connection.close()
