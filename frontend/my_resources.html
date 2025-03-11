@@ -19,47 +19,42 @@
                     class="d-inline-block">
                 <span style="padding-left: .5rem;">Aigo</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-link" id="navHome" aria-current="" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('trending') }}">Trending AI Projects</a>
+                        <a class="nav-link" id="navTrends" aria-current="" href="{{ url_for('trending') }}">Trending AI Projects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('chatbot') }}">Built-in Chatbot</a>
+                        <a class="nav-link" id="navChatbot" aria-current="" href="{{ url_for('chatbot') }}">Built-in Chatbot</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="aigo_item nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="aigo_item nav-link dropdown-toggle" id="navDropdown" href="" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img class="img-thumbnail" src="/CS256_HW_Learning_Hub/frontend/img/default_pfp_64x64.png"
                                 alt="" width="32" height="32">
                             My Account
                         </a>
                         <ul class="aigo_navbar dropdown-menu">
-                            <li><a class="aigo_item dropdown-item" href="{{ url_for('admin_dashboard') }}">My
-                                    Profile</a></li>
-                            <li><a class="aigo_item dropdown-item active" aria-current="page"
-                                    href="{{ url_for('my_resources') }}">My Resources</a></li>
+                            <li><a class="aigo_item dropdown-item disabled" id="navProfile" aria-disabled="true" aria-current="" href="">My Profile</a></li>
+                            <li><a class="aigo_item dropdown-item" id="navResources" aria-current="" href="{{ url_for('my_resources') }}">My Resources</a></li>
+                            <li><a class="aigo_item dropdown-item" id="navSubmit" aria-current="" href="{{ url_for('submit_resource') }}">Submit Resource</a></li>
                             {% if current_user.role == 'admin' %}
                             <li>
-                                <a class="aigo_item dropdown-item" href="{{ url_for('submit_resource') }}">Submit
-                                    Resource</a>
+                                <a class="aigo_item dropdown-item" id="navAdmin" aria-current="" href="{{ url_for('admin_dashboard') }}">ADMIN: Approve Resources</a>
                             </li>
                             {% else %}
                             <li>
-                                <a class="aigo_item dropdown-item disabled" aria-disabled="true"
-                                    href="{{ url_for('submit_resource') }}">Submit
-                                    Resource</a>
+                                <a class="aigo_item dropdown-item disabled" id="navAdmin" aria-disabled="true" aria-current="" href="{{ url_for('admin_dashboard') }}">ADMIN: Approve Resources</a>
                             </li>
                             {% endif %}
-                            <li><a class="aigo_item dropdown-item" href="{{ url_for('my_bookmarks') }}">My Bookmarks</a>
+                            <li><a class="aigo_item dropdown-item" id="navBookmarks" aria-current="" href="{{ url_for('my_bookmarks') }}">My Bookmarks</a>
                             </li>
                             <li>
                                 <hr class="aigo_item dropdown-divider">
@@ -75,6 +70,7 @@
             </div>
         </div>
     </nav>
+    <script src="/CS256_HW_Learning_Hub/frontend/scripts/navActive.js"></script>
 
     <!-- Main Content -->
     <div class="container mt-5">
