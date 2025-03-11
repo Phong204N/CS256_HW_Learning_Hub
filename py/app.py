@@ -332,10 +332,34 @@ def my_resources():
 
     return render_template("my_resources.html", resources=resources)
 
+
+@app.route('/save_bookmark', methods=['POST'])
+def save_bookmark():
+    # Get the data from the POST request
+    data = request.get_json()
+
+    user_id = data.get('user_id')
+    resource_id = data.get('resource_id')
+
+    try:
+        # Create a new Bookmark object
+        new_bookmark = Bookmark(user_id=user_id, resource_id=resource_id)
+
+        # Add the new bookmark to the session and commit
+        db.session.add(new_bookmark)
+        db.session.commit()
+
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+    
 @app.route('/my_bookmarks')
 def my_bookmarks():
-    bookmarks = Bookmark.query.filter_by(user_id=current_user.id).all()
+    # Fetch bookmarks for the current user, joining the resource to get its details
+    bookmarks = Bookmark.query.filter_by(user_id=current_user.id).join(Resource).all()
     return render_template('my_bookmarks.html', bookmarks=bookmarks)
+
 
 @app.route('/delete_bookmark/<int:bookmark_id>', methods=['GET'])
 def delete_bookmark(bookmark_id):

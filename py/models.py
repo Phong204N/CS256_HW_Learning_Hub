@@ -44,12 +44,13 @@ class Resource(db.Model):
 # Bookmark Model
 class Bookmark(db.Model):
     __tablename__ = 'bookmarks'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+    bookmark_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    resource_id = db.Column(db.Integer, db.ForeignKey('resources.resource_id'), nullable=False)
-
-    resource = db.relationship('Resource', backref='bookmarks', lazy=True)
-
+    resource_id = db.Column(db.Integer, db.ForeignKey('resources.resource_id'), nullable=False)  # Corrected here
+    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+    
+    user = db.relationship('User', backref=db.backref('bookmarks', lazy=True))
+    resource = db.relationship('Resource', backref=db.backref('bookmarks', lazy=True))
     def __repr__(self):
         return f'<Bookmark User {self.user_id} Resource {self.resource_id}>'

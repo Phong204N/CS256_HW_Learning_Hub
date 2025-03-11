@@ -77,9 +77,9 @@
             <h1>My Bookmarks</h1>
         </div>
 
-        {% if current_user.bookmarks %}
+        {% if bookmarks %}
         <div class="list-group">
-            {% for bookmark in current_user.bookmarks %}
+            {% for bookmark in bookmarks %}
             <div class="list-group-item">
                 <h5 class="mb-1">{{ bookmark.resource.title }}</h5>
                 <p class="mb-1">{{ bookmark.resource.description }}</p>
