@@ -148,187 +148,254 @@
         <div class="gcse-searchresults"></div>
 
         <br>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI, ML & CS Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h4, h5, h6 {
+            color: #333;
+        }
+        hr {
+            border: 1px solid #ccc;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .section-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .section-card:hover {
+            background-color: #f0f0f0;
+        }
+        .links-container {
+            display: none;
+            padding-left: 20px;
+        }
+        .links-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .links-container ul li {
+            margin-bottom: 8px;
+        }
+        .links-container ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .links-container ul li a:hover {
+            text-decoration: underline;
+        }
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: #ff6f61;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+        .bookmark-btn:hover {
+            color: #ff4500;
+        }
+        
+    .bookmark-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 10px;
+    }
 
-        <div class="markdown prose w-full break-words dark:prose-invert dark">
-            <h4><strong>Our Search Engine searches through all of the following CS and AI
-                    databases!</strong></h4>
-            <hr>
-            <h5><strong>📚 AI, ML &amp; CS Research
-                    Papers &amp; Articles</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new" href="https://arxiv.org/list/cs.AI/recent">arXiv
-                            - AI &amp; CS</a></strong> – Open-access AI &amp; CS research.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://paperswithcode.com/">Papers With
-                            Code</a></strong> – Research papers + code implementations.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://scholar.google.com/">Google
-                            Scholar</a></strong> – Academic search for AI &amp; CS papers.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://ieeexplore.ieee.org/Xplore/home.jsp">IEEE
-                            Xplore - AI &amp; CS</a></strong> –
-                    Peer-reviewed research.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://dl.acm.org/">ACM Digital
-                            Library</a></strong> – Computing and AI research papers.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://deepai.org/">DeepAI</a></strong> –
-                    AI research aggregator.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.semanticscholar.org/">Semantic
-                            Scholar</a></strong> – AI-enhanced paper search.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.csail.mit.edu/">MIT AI
-                            Research</a></strong> – MIT’s AI &amp; CS research.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
-                            Blog</a></strong> – OpenAI’s latest research.</li>
-                <li><strong><a rel="noopener" target="_new">Google DeepMind Research</a></strong> – AI
-                    research from DeepMind.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://www.microsoft.com/en-us/research/theme/artificial-intelligence/">Microsoft
-                            Research AI</a></strong> – MS AI research.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://ai.facebook.com/research/">Meta
-                            AI Research</a></strong> – Meta's AI research papers.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://research.nvidia.com/">NVIDIA
-                            Research</a></strong> – AI &amp; ML research in graphics and computing.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://ai.stanford.edu/">Stanford AI
-                            Lab</a></strong> – Stanford's AI research hub.</li>
-                <li><strong><a rel="noopener" target="_new">Berkeley AI Research (BAIR)</a></strong> – AI
-                    research from UC Berkeley.</li>
-            </ol>
-            <hr>
-            <h5><strong>👨‍💻 AI &amp; CS
-                    Open-Source Repositories</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/">GitHub</a></strong>
-                    – Largest open-source code repository.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://github.com/trending/python?since=daily&amp;spoken_language_code=en">GitHub
-                            Trending - AI</a></strong> – Popular AI projects.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://paperswithcode.com/">Papers With
-                            Code</a></strong> – AI research + implementation.</li>
-                <li><strong><a rel="noopener" target="_new">Hugging Face Models</a></strong> – Pretrained
-                    AI/ML models.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/tensorflow/models">TensorFlow
-                            Models</a></strong> – Google’s ML
-                    models.</li>
-                <li><strong><a rel="noopener" target="_new">PyTorch Hub</a></strong> – Pretrained deep
-                    learning models.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/openai">OpenAI
-                            GitHub</a></strong> – OpenAI’s projects.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/fastai/fastai">fastai</a></strong>
-                    – AI/ML deep learning library.
-                </li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/NVIDIA/DeepLearningExamples">NVIDIA
-                            Deep Learning
-                            Examples</a></strong> – Optimized AI models.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/facebookresearch">Facebook AI
-                            Research (FAIR)</a></strong> –
-                    Open-source AI tools.</li>
-            </ol>
-            <hr>
-            <h5><strong>🌎 AI &amp; CS Communities
-                    &amp; Forums</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://www.reddit.com/r/MachineLearning/">r/MachineLearning</a></strong> – AI/ML
-                    discussions.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://www.reddit.com/r/artificial/">r/artificial</a></strong> – General AI
-                    discussions.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://www.reddit.com/r/compsci/">r/compsci</a></strong> – Computer Science
-                    discussions.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://stackoverflow.com/">Stack
-                            Overflow</a></strong> – Programming &amp; AI Q&amp;A.</li>
-                <li><strong><a rel="noopener" target="_new">Hacker News</a></strong> – Tech &amp; AI
-                    research discussions.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.lesswrong.com/">LessWrong</a></strong> –
-                    AI safety and alignment
-                    discussions.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.alignmentforum.org/">AI
-                            Alignment Forum</a></strong> – AI ethics and safety.</li>
-                <li><strong><a rel="noopener" target="_new">Deep Learning Discord</a></strong> – ML
-                    developer community.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://machinelearningmastery.com/">Machine Learning
-                            Mastery</a></strong> – ML
-                    tutorials &amp; guides.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.kdnuggets.com/">KDNuggets</a></strong> –
-                    AI &amp; data science articles.
-                </li>
-            </ol>
-            <hr>
-            <h5><strong>📂 AI/ML Open
-                    Datasets</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new">Google Dataset Search</a></strong> – Search AI
-                    datasets.</li>
-                <li><strong><a rel="noopener" target="_new">Kaggle Datasets</a></strong> – ML-ready
-                    datasets.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://archive.ics.uci.edu/ml/index.php">UCI ML
-                            Repository</a></strong> – Classic ML
-                    datasets.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://www.image-net.org/">ImageNet</a></strong> –
-                    Image classification dataset.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
-                            Datasets</a></strong> – AI training data.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://cocodataset.org/">COCO
-                            Dataset</a></strong> – Computer vision dataset.</li>
-                <li><strong><a rel="noopener" target="_new">Papers With Code Datasets</a></strong> – AI
-                    research datasets.</li>
-                <li><strong><a rel="noopener" target="_new">LLaMA Dataset</a></strong> – Meta’s LLM
-                    dataset.</li>
-                <li><strong><a rel="noopener" target="_new">Google BigQuery Public Data</a></strong> –
-                    Large-scale datasets.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://github.com/awesomedata/awesome-public-datasets">Awesome Public
-                            Datasets</a></strong> – AI dataset list.</li>
-            </ol>
-            <hr>
-            <h5><strong>📰 AI &amp; Tech
-                    News</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new" href="https://www.technologyreview.com/">MIT
-                            Technology Review</a></strong> – AI &amp; emerging tech.</li>
-                <li><strong><a rel="noopener" target="_new">Wired AI</a></strong> – AI-focused news.</li>
-                <li><strong><a rel="noopener" target="_new">The Verge AI</a></strong> – AI coverage.</li>
-                <li><strong><a rel="noopener" target="_new">VentureBeat AI</a></strong> – AI business &amp;
-                    research.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://spectrum.ieee.org/artificial-intelligence">IEEE Spectrum AI</a></strong> – AI
-                    industry trends.</li>
-                <li><strong><a rel="noopener" target="_new">Ars Technica AI</a></strong> – AI &amp; tech
-                    deep dives.</li>
-                <li><strong><a rel="noopener" target="_new">Futurism AI</a></strong> – AI advancements.
-                </li>
-                <li><strong><a rel="noopener" target="_new" href="https://openai.com/research/">OpenAI
-                            Blog</a></strong> – OpenAI research updates.</li>
-                <li><strong><a rel="noopener" target="_new">DeepMind Blog</a></strong> – AI innovations.
-                </li>
-                <li><strong><a rel="noopener" target="_new" href="https://ai.facebook.com/blog/">Meta AI
-                            Blog</a></strong> – Meta’s AI research.</li>
-            </ol>
-            <hr>
-            <h5><strong>🛠 AI &amp; ML Tools &amp;
-                    Libraries</strong></h5>
-            <ol>
-                <li><strong><a rel="noopener" target="_new" href="https://www.tensorflow.org/">TensorFlow</a></strong> –
-                    Google’s deep learning
-                    framework.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://pytorch.org/">PyTorch</a></strong> – Deep
-                    learning library by Meta.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://jupyter.org/">Jupyter
-                            Notebook</a></strong> – Interactive computing for ML.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://scikit-learn.org/">scikit-learn</a></strong> –
-                    Classical ML toolkit.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://keras.io/">Keras</a></strong> –
-                    High-level API for deep learning.</li>
-                <li><strong><a rel="noopener" target="_new">Hugging Face Transformers</a></strong> – NLP
-                    &amp; LLM models.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://opencv.org/">OpenCV</a></strong>
-                    – Computer vision framework.</li>
-                <li><strong><a rel="noopener" target="_new" href="https://github.com/CompVis/stable-diffusion">Stable
-                            Diffusion</a></strong> – AI image
-                    generation.</li>
-                <li><strong><a rel="noopener" target="_new"
-                            href="https://github.com/openai/whisper">Whisper</a></strong> – AI speech recognition.</li>
-                <li><strong><a rel="noopener" target="_new">FastAPI</a></strong> – Fast AI API deployment.
-                </li>
-            </ol>
-            <hr>
+    .bookmark-btn:hover {
+        opacity: 0.7;
+    }
+
+    </style>
+</head>
+<body>
+
+    <h4><strong>Our Search Engine searches through all of the following CS and AI databases!</strong></h4>
+    <hr>
+
+    <!-- Grid Container -->
+    <div class="grid">
+        <div class="section-card" onclick="toggleLinks('research-papers')">
+            <h5><strong>📚 AI, ML &amp; CS Research Papers &amp; Articles</strong></h5>
+            <p>Explore papers from top research sites.</p>
+        </div>
+        <div class="section-card" onclick="toggleLinks('open-source')">
+            <h5><strong>👨‍💻 AI &amp; CS Open-Source Repositories</strong></h5>
+            <p>Explore top open-source projects and models.</p>
+        </div>
+        <div class="section-card" onclick="toggleLinks('communities')">
+            <h5><strong>🌎 AI &amp; CS Communities &amp; Forums</strong></h5>
+            <p>Join discussions and communities.</p>
+        </div>
+        <div class="section-card" onclick="toggleLinks('datasets')">
+            <h5><strong>📂 AI/ML Open Datasets</strong></h5>
+            <p>Access public AI/ML datasets.</p>
+        </div>
+        <div class="section-card" onclick="toggleLinks('news')">
+            <h5><strong>📰 AI &amp; Tech News</strong></h5>
+            <p>Read the latest news on AI & tech.</p>
+        </div>
+        <div class="section-card" onclick="toggleLinks('tools')">
+            <h5><strong>🛠 AI &amp; ML Tools &amp; Libraries</strong></h5>
+            <p>Check out popular AI/ML tools.</p>
+        </div>
+    </div>
+
+    <!-- Hidden Links Section -->
+    <div class="links-container" id="research-papers">
+        <h6><strong>Research Paper Links</strong></h6>
+        <ul>
+            <li><a href="https://arxiv.org/list/cs.AI/recent" target="_new">arXiv - AI &amp; CS</a>     <button class="bookmark-btn" onclick="toggleBookmark(this)">⭐</button></li>
+            <li><a href="https://paperswithcode.com/" target="_new">Papers With Code</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://scholar.google.com/" target="_new">Google Scholar</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://ieeexplore.ieee.org/Xplore/home.jsp" target="_new">IEEE Xplore - AI &amp; CS</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://dl.acm.org/" target="_new">ACM Digital Library</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://deepai.org/" target="_new">DeepAI</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.semanticscholar.org/" target="_new">Semantic Scholar</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.csail.mit.edu/" target="_new">MIT AI Research</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://openai.com/research/" target="_new">OpenAI Blog</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://deepmind.com/research" target="_new">Google DeepMind Research</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.microsoft.com/en-us/research/theme/artificial-intelligence/" target="_new">Microsoft Research AI</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://ai.facebook.com/research/" target="_new">Meta AI Research</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://research.nvidia.com/" target="_new">NVIDIA Research</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://ai.stanford.edu/" target="_new">Stanford AI Lab</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://bair.berkeley.edu/" target="_new">Berkeley AI Research (BAIR)</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <div class="links-container" id="open-source">
+        <h6><strong>Open-Source Repository Links</strong></h6>
+        <ul>
+            <li><a href="https://github.com/" target="_new">GitHub</a><button class="bookmark-btn" onclick="toggleBookmark(this)">⭐</button></li>
+            <li><a href="https://github.com/trending/python?since=daily&amp;spoken_language_code=en" target="_new">GitHub Trending - AI</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://paperswithcode.com/" target="_new">Papers With Code</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://huggingface.co/models" target="_new">Hugging Face Models</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://github.com/tensorflow/models" target="_new">TensorFlow Models</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://pytorch.org/hub/" target="_new">PyTorch Hub</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://github.com/openai" target="_new">OpenAI GitHub</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://github.com/fastai/fastai" target="_new">fastai</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://github.com/NVIDIA/DeepLearningExamples" target="_new">NVIDIA Deep Learning Examples</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://github.com/facebookresearch" target="_new">Facebook AI Research (FAIR)</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <div class="links-container" id="communities">
+        <h6><strong>Community Links</strong></h6>
+        <ul>
+            <li><a href="https://www.reddit.com/r/MachineLearning/" target="_new">r/MachineLearning</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.reddit.com/r/artificial/" target="_new">r/artificial</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.reddit.com/r/compsci/" target="_new">r/compsci</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://stackoverflow.com/" target="_new">Stack Overflow</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://news.ycombinator.com/" target="_new">Hacker News</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.lesswrong.com/" target="_new">LessWrong</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.alignmentforum.org/" target="_new">AI Alignment Forum</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://discord.com/invite/8V6K2Fg" target="_new">Deep Learning Discord</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://machinelearningmastery.com/" target="_new">Machine Learning Mastery</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.kdnuggets.com/" target="_new">KDNuggets</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <div class="links-container" id="datasets">
+        <h6><strong>Open Datasets Links</strong></h6>
+        <ul>
+            <li><a href="https://www.kaggle.com/datasets" target="_new">Kaggle Datasets</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://openml.org/" target="_new">OpenML</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.uCI.edu/ml-datasets" target="_new">UCI ML Repository</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.data.gov/" target="_new">Data.gov</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.microsoft.com/en-us/research/publication/corpora-in-ai/" target="_new">Microsoft Research Datasets</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.nature.com/sdata/" target="_new">Nature Datasets</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <div class="links-container" id="news">
+        <h6><strong>AI &amp; Tech News</strong></h6>
+        <ul>
+            <li><a href="https://www.techcrunch.com/" target="_new">TechCrunch</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.wired.com/category/artificial-intelligence/" target="_new">Wired AI Section</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.theverge.com/ai" target="_new">The Verge AI News</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.bbc.com/news/technology" target="_new">BBC Tech</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <div class="links-container" id="tools">
+        <h6><strong>AI &amp; ML Tools &amp; Libraries</strong></h6>
+        <ul>
+            <li><a href="https://scikit-learn.org/" target="_new">scikit-learn</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://pytorch.org/" target="_new">PyTorch</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://www.tensorflow.org/" target="_new">TensorFlow</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://huggingface.co/" target="_new">Hugging Face</a> <button class="bookmark-btn">⭐</button></li>
+            <li><a href="https://fast.ai/" target="_new">fast.ai</a> <button class="bookmark-btn">⭐</button></li>
+        </ul>
+    </div>
+
+    <script>
+        function toggleLinks(sectionId) {
+            const sections = document.querySelectorAll('.links-container');
+            sections.forEach(section => section.style.display = 'none');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.style.display = section.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+    </script>
+    <script>
+       function toggleBookmark(button, resourceId) {
+    // Toggle the visual appearance of the bookmark button
+    if (button.textContent === '⭐') {
+        button.textContent = '★';
+        button.style.color = 'gold';
+    } else {
+        button.textContent = '⭐';
+        button.style.color = '';
+    }
+
+    // Assuming the current user's ID is available on the frontend (from a global variable or session)
+    const userId = getCurrentUserId(); // Implement this function to get the current user's ID
+
+    // Send an AJAX request to save the bookmark
+    fetch('/save_bookmark', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            resource_id: resourceId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Bookmark saved successfully!');
+        } else {
+            console.error('Error saving bookmark');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+    </script>
 
         </div>
 
