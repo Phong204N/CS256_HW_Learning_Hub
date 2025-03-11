@@ -5,17 +5,14 @@ function sendMessage() {
 
     let chatBox = document.getElementById("chat-box");
 
-    // Append user message
     let userMessageHTML = `<div class="chat-message user-message">
                                 <div class="message-bubble">${message}</div>
                            </div>`;
     chatBox.innerHTML += userMessageHTML;
     userInput.value = "";
 
-    // Scroll chat to bottom
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Send request to Flask server
     fetch("/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
