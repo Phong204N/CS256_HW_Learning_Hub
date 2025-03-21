@@ -1,3 +1,0 @@
-- name: idk
-    env:
-      OAI_KEY:  ${{ secrets.oai_key }}

@@ -1,5 +1,5 @@
 ##  Begin Standard Imports
-import mysql
+import mysql, os
 from openai import OpenAI
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
@@ -27,7 +27,7 @@ login_manager.login_view = 'login'
 
 # MY PRIVATE KEY.  
 client = OpenAI(
-  api_key="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"
+  api_key="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"
 )
 
 
